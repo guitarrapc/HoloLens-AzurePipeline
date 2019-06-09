@@ -52,6 +52,8 @@ steps:
     customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
   continueOnError: true
 
+- pwsh: Get-ChildItem -Directory
+
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Pipeline Artifact'
   inputs:
@@ -64,7 +66,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
   inputs:
-    restoreSolution: 'Builds/WSAPlayer/*.sln'
+    restoreSolution: 'Builds/WSAPlayer/UnitySample.sln'
 
 - task: MSBuild@1
   displayName: 'Build solution'
