@@ -56,7 +56,7 @@ steps:
     restoreSolution: 'Builds/WSAPlayer/*.sln'
 
 - task: MSBuild@1
-  displayName: 'Build solution Builds/WSAPlayer/**/*.sln'
+  displayName: 'Build solution Builds/WSAPlayer/UnitySample.sln'
   inputs:
     solution: 'Builds/WSAPlayer/**/*.sln'
     platform: x64
