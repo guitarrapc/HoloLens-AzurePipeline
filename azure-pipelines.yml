@@ -16,7 +16,6 @@ steps:
   lfs: false
 
 - task: UnityGetProjectVersionTask@1
-  inputs: ./
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
