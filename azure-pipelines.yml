@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- checkout: 
+- checkout: self
   clean: true
   fetchDepth: 1
   lfs: false
