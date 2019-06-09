@@ -15,8 +15,8 @@ steps:
   fetchDepth: 1
   lfs: false
 
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UnityGetProjectVersionTask@1
+  inputs: ./
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
