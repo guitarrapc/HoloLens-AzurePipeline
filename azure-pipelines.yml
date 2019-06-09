@@ -19,7 +19,6 @@ steps:
 # https://developercommunity.visualstudio.com/content/problem/335706/output-variable-set-in-the-vsts-task-does-not-show.html
 - task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-get-project-version-task.UnityGetProjectVersionTask@1
   displayName: 'Unity Get Project Version'
-  enabled: false
 
 - pwsh: Install-Module -Name UnitySetup -AllowPrerelease -Scope CurrentUser -Force
   displayName: 'Install UnitySetup Module'
