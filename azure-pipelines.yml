@@ -3,6 +3,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+variables:
+  unitygetprojectversion.projectVersion: '2018.3.13f1'
+
 trigger:
 - master
 
@@ -15,8 +18,52 @@ steps:
   fetchDepth: 1
   lfs: false
 
-- task: UnityGetProjectVersionTask@1
+# YAML Build not support output variable, so it should disable on YAML.
+# https://developercommunity.visualstudio.com/content/problem/335706/output-variable-set-in-the-vsts-task-does-not-show.html
+- task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-get-project-version-task.UnityGetProjectVersionTask@1
+  displayName: 'Unity Get Project Version'
+  enabled: false
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
+- pwsh: Install-Module -Name UnitySetup -AllowPrerelease -Scope CurrentUser -Force
+  displayName: 'Install UnitySetup Module'
+  failOnStderr: true
+
+- pwsh: Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version '$(unitygetprojectversion.projectVersion)' -Components Windows,Windows_IL2CPP) -Verbose
+  displayName: 'Install Unity'
+  failOnStderr: true
+
+- task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-activate-license-task.UnityActivateLicenseTask@1
+  displayName: 'Unity Activate License'
+  inputs:
+    username: '$(unity.username)'
+    password: '$(unity.password)'
+    serial: '$(unity.serialkey)'
+
+- task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-build-task.UnityBuildTask@2
+  displayName: 'Unity Build WindowsStoreApps'
+  inputs:
+    buildTarget: WindowsStoreApps
+    commandLineArgumentsMode: custom
+    customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
+  continueOnError: true
+
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet'
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: 'Builds/WSAPlayer/*.sln'
+
+- task: MSBuild@1
+  displayName: 'Build solution Builds/WSAPlayer/**/*.sln'
+  inputs:
+    solution: 'Builds/WSAPlayer/**/*.sln'
+    platform: x64
+    configuration: Release
+    msbuildArguments: '/P:OutputPath=$(Build.ArtifactStagingDirectory);PlatformToolset=v142'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
