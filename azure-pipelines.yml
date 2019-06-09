@@ -3,9 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-variables:
-  unitygetprojectversion.projectVersion: '2018.3.13f1'
-
 trigger:
 - master
 
@@ -47,6 +44,12 @@ steps:
     customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
   continueOnError: true
 
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: 'unity_build_log'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+
 - task: NuGetToolInstaller@1
   displayName: 'Use NuGet'
 
@@ -61,9 +64,10 @@ steps:
     solution: 'Builds/WSAPlayer/UnitySample.sln'
     platform: x64
     configuration: Release
-    msbuildArguments: '/P:OutputPath=$(Build.ArtifactStagingDirectory);PlatformToolset=v142'
+    msbuildArguments: '/P:PlatformToolset=v142;AppxBundle=Always;AppxBundlePlatforms=x64'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Pipeline Artifact'
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'apppackages'
+    targetPath: 'Builds/WSAPlayer/AppPackages'
