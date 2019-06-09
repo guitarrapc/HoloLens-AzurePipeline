@@ -56,9 +56,9 @@ steps:
     restoreSolution: 'Builds/WSAPlayer/*.sln'
 
 - task: MSBuild@1
-  displayName: 'Build solution .sln'
+  displayName: 'Build solution'
   inputs:
-    solution: 'Builds/WSAPlayer/WSAPlayer/**/*.sln'
+    solution: 'Builds/WSAPlayer/UnitySample.sln'
     platform: x64
     configuration: Release
     msbuildArguments: '/P:OutputPath=$(Build.ArtifactStagingDirectory);PlatformToolset=v142'
