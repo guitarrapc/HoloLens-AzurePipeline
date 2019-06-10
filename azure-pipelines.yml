@@ -33,7 +33,7 @@ steps:
   displayName: 'Install UnitySetup Module'
   failOnStderr: true
 
-- pwsh: Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version '$(unitygetprojectversion.projectVersion)' -Components Windows,Windows_IL2CPP) -Verbose
+- pwsh: Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version '$(unitygetprojectversion.projectVersion)' -Components Windows,UWP_IL2CPP) -Verbose
   displayName: 'Install Unity'
   failOnStderr: true
 
