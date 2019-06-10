@@ -44,6 +44,9 @@ steps:
     password: '$(unity.password)'
     serial: '$(unity.serialkey)'
 
+# Azure DevOps Hosted Agent won't install Windows 10 SDK version 10.0.18362.0.
+# Therefore MRTKv2 could not refer some new introduced windows 10 SDK API.
+# Fix: install Windows 10 SDK 10.0.18362 before unity build.
 - task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-build-task.UnityBuildTask@2
   displayName: 'Unity Build WindowsStoreApps'
   inputs:
