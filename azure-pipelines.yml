@@ -51,8 +51,8 @@ steps:
   displayName: 'Unity Build WindowsStoreApps'
   inputs:
     buildTarget: WindowsStoreApps
-    #commandLineArgumentsMode: custom
-    #customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
+    commandLineArgumentsMode: custom
+    customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
   continueOnError: true
 
 - pwsh: Get-ChildItem -Recurse
