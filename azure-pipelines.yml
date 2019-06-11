@@ -55,7 +55,7 @@ steps:
     customCommandLineArguments: '-ExecuteMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild -logfile $(Build.ArtifactStagingDirectory)/Editor.log'
   continueOnError: true
 
-- pwsh: Get-ChildItem -Path Builds -Recurse
+- pwsh: Get-ChildItem -Recurse
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Pipeline Artifact'
