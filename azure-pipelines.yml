@@ -47,6 +47,7 @@ steps:
 - script: dotnet tool install --global UnityBuildRunner
 
 - script: UnityBuildRunner -quit -batchmode -projectPath $(Build.Repository.LocalPath) -logfile $(Build.ArtifactStagingDirectory)\Editor.log -executeMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild
+  continueOnError: true
 
 # Azure DevOps Hosted Agent won't install Windows 10 SDK version 10.0.18362.0.
 # Therefore MRTKv2 could not refer some new introduced windows 10 SDK API.
