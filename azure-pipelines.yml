@@ -11,7 +11,7 @@ pool:
 
 # make sure you have set variables for followings at AzureDevOps Pipeline Variable configuration UI.
 # https://dev.azure.com/YOUR_ORG/YOUR_PROJECT/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=YOUR_ID&view=Tab_Variables
-variables:
+# variables:
   #unity.username: YOUR_USER_NAME_AS_SECRET
   #unity.password: YOUR_USER_PASSWORD_AS_SECRET
   #unity.serialkey: YOUR_UNITY_SERIALKEY_AS_SECRET
