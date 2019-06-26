@@ -12,8 +12,6 @@ pool:
 # make sure you have set variables for followings at AzureDevOps Pipeline Variable configuration UI.
 # https://dev.azure.com/YOUR_ORG/YOUR_PROJECT/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=YOUR_ID&view=Tab_Variables
 variables:
-  unitygetprojectversion.projectVersion: 2018.3.13f1
-  unityPath: 'C:\Program Files\Unity\Hub\Editor\2018.3.13f1\Editor\Unity.exe'
   #unity.username: YOUR_USER_NAME_AS_SECRET
   #unity.password: YOUR_USER_PASSWORD_AS_SECRET
   #unity.serialkey: YOUR_UNITY_SERIALKEY_AS_SECRET
@@ -26,9 +24,10 @@ steps:
 
 # YAML Build not support output variable, so it won't work on YAML at current 10/June/2019. 
 # refer: https://developercommunity.visualstudio.com/content/problem/335706/output-variable-set-in-the-vsts-task-does-not-show.html
+# use name instead to reference output variable.
 - task: DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116.custom-unity-get-project-version-task.UnityGetProjectVersionTask@1
   displayName: 'Unity Get Project Version'
-  enabled: false
+  name: unitygetprojectversion
 
 - pwsh: Install-Module -Name UnitySetup -AllowPrerelease -Scope CurrentUser -Force
   displayName: 'Install UnitySetup Module'
@@ -46,8 +45,12 @@ steps:
     serial: '$(unity.serialkey)'
 
 - script: dotnet tool install --global UnityBuildRunner
+  displayName: 'Install UnityBuildRunner'
 
-- script: UnityBuildRunner -quit -batchmode -projectPath $(Build.Repository.LocalPath) -buildTarget WSAPlayer -logfile $(Build.ArtifactStagingDirectory)\Editor.log -executeMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild
+- script: |
+    set UnityPath=C:\Program Files\Unity\Hub\Editor\$(unitygetprojectversion.projectVersion)\Editor\Unity.exe
+    UnityBuildRunner -quit -batchmode -projectPath $(Build.Repository.LocalPath) -buildTarget WSAPlayer -logfile $(Build.ArtifactStagingDirectory)\Editor.log -executeMethod Microsoft.MixedReality.Toolkit.Build.Editor.UnityPlayerBuildTools.StartCommandLineBuild
+  displayName: 'Unity Build'
 
 # Azure DevOps Hosted Agent won't install Windows 10 SDK version 10.0.18362.0.
 # Therefore MRTKv2 could not refer some new introduced windows 10 SDK API.
@@ -85,7 +88,8 @@ steps:
 - task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    solution: 'Builds/WSAPlayer/UnitySample.sln'
+    #solution: 'Builds/WSAPlayer/UnitySample.sln'
+    solution: 'Builds/WSAPlayer'
     platform: x64
     configuration: Release
     msbuildArguments: '/P:PlatformToolset=v142;AppxBundle=Always;AppxBundlePlatforms=x64'
