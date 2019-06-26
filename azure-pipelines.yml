@@ -68,6 +68,12 @@ steps:
     artifactName: 'unity_build_log'
     targetPath: '$(Build.ArtifactStagingDirectory)'
 
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: 'sln'
+    targetPath: 'Builds/WSAPlayer'
+
 - task: NuGetToolInstaller@1
   displayName: 'Use NuGet'
 
@@ -79,8 +85,7 @@ steps:
 - task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    #solution: 'Builds/WSAPlayer/UnitySample.sln'
-    solution: 'Builds/WSAPlayer/'
+    solution: 'Builds/WSAPlayer/UnitySample.sln'
     platform: x64
     configuration: Release
     msbuildArguments: '/P:PlatformToolset=v142;AppxBundle=Always;AppxBundlePlatforms=x64'
