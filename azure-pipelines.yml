@@ -89,7 +89,6 @@ steps:
 - task: MSBuild@1
   displayName: 'Build solution'
   inputs:
-    #solution: 'Builds/WSAPlayer/UnitySample.sln'
     solution: 'Builds/WSAPlayer'
     platform: x64
     configuration: Release
