@@ -1,4 +1,6 @@
-HoloLens-AzurePipeline
+## HoloLens-AzurePipelineMRTKv2
+
+[![Build Status](https://dev.azure.com/guitarrapc-oss/HoloLens%20App/_apis/build/status/guitarrapc.HoloLens-AzurePipelineMRTKv2?branchName=master)](https://dev.azure.com/guitarrapc-oss/HoloLens%20App/_build/latest?definitionId=3&branchName=master)
 
 Unity Build (IL2CPP)
 
